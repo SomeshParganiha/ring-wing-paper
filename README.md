@@ -40,6 +40,23 @@ subject to lift-equality constraints via a KKT system. See `trefftz.py`.
   ~10% lift share, steep beyond: at h/b = 0.3, e falls 1.30 → 1.14 at 20%
   spine lift and below the planar wing (< 1.0) at ~30%.
 
+## Extended results (`run_extended.py`)
+
+- **Superellipse family** |y/a|^p + |z/c|^p = 1 bridges ellipse (p=2) and
+  box (p→∞). Benefit capture rises steeply then saturates: p=4 captures
+  ~73–76% of the box benefit over planar, p=6 ~83–85%, p=12 ~93%.
+  A gently squared "squircle" ring buys most of the box-wing gain.
+- **Cabin height placement** (ellipse h/b=0.3, 15% lift share): the penalty
+  curve is a symmetric U — **mid-height is the worst place** to carry lift
+  (e=1.145); hugging the lower or upper arc is cheapest (e=1.226 at
+  z/h=0.1). Design rule: blend the cabin into an arc, don't suspend it.
+- **e = 1 + h/b law** (ellipse): max deviation 7.9e-4 at n=1536, shrinking
+  with resolution and vanishing at the circle — consistent with an exact
+  relation. Candidate for analytical proof (elliptic coordinates).
+- **Design point**: p=4 squircle, h/b=0.5, cabin at z/h=0.15 carrying 15%
+  of lift: **e = 1.61** — a 38% induced-drag cut vs an ideal planar wing,
+  with realistic cabin loading included.
+
 ## Files
 
 - `trefftz.py` — solver (geometries: planar, box, ellipse, ellipse+spine)

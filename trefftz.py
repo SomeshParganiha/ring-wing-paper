@@ -203,15 +203,36 @@ def ellipse_ring(h_over_b, n=512, semispan=1.0):
     return [Component(np.column_stack([y, z]), closed=True)]
 
 
-def ellipse_with_spine(h_over_b, spine_frac=0.5, n=512, n_spine=96,
-                       semispan=1.0):
-    """Elliptical ring plus a detached central lifting-body element at
-    mid-height (the cabin spine joins the ring fore-aft, so its Trefftz
-    trace is a free central segment)."""
-    comps = ellipse_ring(h_over_b, n=n, semispan=semispan)
+def superellipse_ring(h_over_b, p, n=768, semispan=1.0, n_dense=8192):
+    """Superelliptical ring |y/a|^p + |z/c|^p = 1, resampled to uniform
+    arc length.  p = 2 is the ellipse; p -> inf approaches the box."""
+    b = 2.0 * semispan
+    h = h_over_b * b
+    c = 0.5 * h
+    th = np.linspace(0.0, 2.0 * np.pi, n_dense, endpoint=False)
+    ct, st = np.cos(th), np.sin(th)
+    y = semispan * np.sign(ct) * np.abs(ct) ** (2.0 / p)
+    z = c * (1.0 + np.sign(st) * np.abs(st) ** (2.0 / p))
+    dense = np.column_stack([y, z])
+    pts = _resample_closed_polygon(dense, n)
+    return [Component(pts, closed=True)]
+
+
+def add_spine(comps, h_over_b, spine_frac=0.5, z_frac=0.5, n_spine=96,
+              semispan=1.0):
+    """Append a detached central lifting-body element at height z_frac*h
+    (the cabin joins the ring fore-aft, so its Trefftz trace is a free
+    central segment)."""
     b = 2.0 * semispan
     h = h_over_b * b
     ys = cosine_spaced(n_spine) * (0.5 * spine_frac * b)
-    spine = np.column_stack([ys, np.full_like(ys, 0.5 * h)])
+    spine = np.column_stack([ys, np.full_like(ys, z_frac * h)])
     comps.append(Component(spine, closed=False))
     return comps
+
+
+def ellipse_with_spine(h_over_b, spine_frac=0.5, n=512, n_spine=96,
+                       semispan=1.0, z_frac=0.5):
+    comps = ellipse_ring(h_over_b, n=n, semispan=semispan)
+    return add_spine(comps, h_over_b, spine_frac=spine_frac, z_frac=z_frac,
+                     n_spine=n_spine, semispan=semispan)
