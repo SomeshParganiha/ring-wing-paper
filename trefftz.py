@@ -62,12 +62,11 @@ def _induced_velocity(targets, sources):
     return -k * dz, k * dy
 
 
-def solve(components, lift=1.0, component_lift=None):
-    """Optimal loading for a list of Components.
+def build_system(components):
+    """Assemble the Trefftz-plane quadratic form.
 
-    component_lift: optional dict {component_index: absolute_lift} forcing a
-    given component to carry a fixed share of the total lift (KKT equality
-    constraints).  Returns dict of results.
+    Returns (A, bvec, aux) with induced drag D = Gamma^T A Gamma and lift
+    L = bvec^T Gamma (rho = V = 1), plus geometry arrays in aux.
     """
     starts, ends, mids, normals, ds, dyv, slices = [], [], [], [], [], [], []
     offset = 0
@@ -90,7 +89,6 @@ def solve(components, lift=1.0, component_lift=None):
     normals = np.vstack(normals)
     ds = np.concatenate(ds)
     dyv = np.concatenate(dyv)
-    n = len(ds)
 
     # normal wash at control point i per unit Gamma_k:
     # panel k contributes vortex -1 at its start and +1 at its end.
@@ -105,8 +103,41 @@ def solve(components, lift=1.0, component_lift=None):
     # panel normals, physical induced drag is the negative of the raw form.)
     Q = ds[:, None] * M
     A = -0.25 * (Q + Q.T)  # includes the rho/2 factor (rho = 1)
-
     bvec = dyv.copy()  # L = sum Gamma_i dy_i  (rho V = 1)
+
+    ys = np.concatenate([c.points[:, 0] for c in components])
+    span = ys.max() - ys.min()
+    aux = {"mids": mids, "ds": ds, "slices": slices, "span": span}
+    return A, bvec, aux
+
+
+def evaluate(components, gamma):
+    """Span efficiency of a GIVEN circulation distribution (no optimising).
+
+    gamma must have one entry per panel, ordered like build_system's arrays
+    (component by component, panel by panel), in the trace orientation
+    (positive along the traversal direction of each component's points).
+    """
+    A, bvec, aux = build_system(components)
+    gamma = np.asarray(gamma, dtype=float)
+    D = gamma @ A @ gamma
+    L = bvec @ gamma
+    q = 0.5
+    e = L * L / (np.pi * q * aux["span"] ** 2 * D)
+    return {"e": e, "D": D, "L": L, "span": aux["span"], "mids": aux["mids"]}
+
+
+def solve(components, lift=1.0, component_lift=None):
+    """Optimal loading for a list of Components.
+
+    component_lift: optional dict {component_index: absolute_lift} forcing a
+    given component to carry a fixed share of the total lift (KKT equality
+    constraints).  Returns dict of results.
+    """
+    A, bvec, aux = build_system(components)
+    mids, ds, slices = aux["mids"], aux["ds"], aux["slices"]
+    n = len(ds)
+    dyv = bvec
 
     # equality constraints: total lift, plus optional per-component lift.
     cons_vecs = [bvec]

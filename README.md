@@ -57,10 +57,26 @@ subject to lift-equality constraints via a KKT system. See `trefftz.py`.
   of lift: **e = 1.61** — a 38% induced-drag cut vs an ideal planar wing,
   with realistic cabin loading included.
 
+## Finite-chord cross-check (`run_vlm.py`)
+
+Horseshoe-vortex VLM (Katz & Plotkin) on the same trace geometries, with
+strip circulations evaluated by the same Trefftz functionals as the ideal
+results. Validation gates: elliptical-planform AR=8 wing gives 99.9% of
+same-grid ideal and CL_alpha=4.80/rad (Helmbold 5.03); Kutta-Joukowski vs
+Trefftz lift agree to 0.4%; chordwise-resolution independent to 2e-4.
+
+Result (144 strips, c/b=0.1, alpha=5 deg): **untwisted rings already
+achieve 98.6-100% of the ideal efficiency** (circle: exactly optimal by
+symmetry -- uniform incidence imposes Munk's criterion in near-field
+form), and **< 1 degree of twist recovers the rest** (ellipse 0.76 deg,
+superellipse p=4 0.63 deg). Chord sensitivity mild: 97.9-99.7% of ideal
+across c/b = 0.05-0.20. So the Trefftz bounds are practically attainable.
+
 ## Files
 
 - `trefftz.py` — solver (geometries: planar, box, ellipse, ellipse+spine)
-- `run_study.py` — validation, sweeps, figures
+- `vlm.py` — finite-chord vortex-lattice method (shares Trefftz functionals)
+- `run_study.py`, `run_extended.py`, `run_vlm.py` — validation, sweeps, figures
 - `results_sweep.csv`, `results_spine.csv` — data
 - `efficiency_vs_hb.png`, `spine_penalty.png`, `optimal_loading_ring.png`
 
