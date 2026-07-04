@@ -63,7 +63,8 @@ class VLM:
     chord:        scalar or (n_strips,) chord per strip
     """
 
-    def __init__(self, trace_points, closed, chord, n_chord=8):
+    def __init__(self, trace_points, closed, chord, n_chord=8,
+                 x_offset=None):
         pts = np.asarray(trace_points, dtype=float)
         if closed:
             p0 = pts
@@ -90,9 +91,13 @@ class VLM:
 
         M = self.n_chord
         K = self.n_strips
-        # quarter-chord line of each strip at x = 0 (unswept, unstaggered:
-        # Munk's stagger theorem -- induced drag is stagger-independent)
-        x_le = -0.25 * chord
+        # quarter-chord line of each strip at x = x_offset (default 0,
+        # i.e. unstaggered; pass x_offset per strip to stagger the arcs)
+        if x_offset is None:
+            x_offset = np.zeros(K)
+        x_offset = np.broadcast_to(np.asarray(x_offset, dtype=float),
+                                   (K,)).copy()
+        x_le = -0.25 * chord + x_offset
         edge0_3d = np.column_stack([np.zeros(K), p0[:, 0], p0[:, 1]])
         edge1_3d = np.column_stack([np.zeros(K), p1[:, 0], p1[:, 1]])
 

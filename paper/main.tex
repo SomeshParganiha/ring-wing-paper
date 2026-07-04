@@ -29,8 +29,9 @@ circulation panels and solved as an equality-constrained quadratic program,
 this study (i)~validates against three classical results (planar wing
 $e=1$, Prandtl's box wing $e\approx1.46$ at $h/b=0.2$, circular ring
 $e=2$); (ii)~shows that the optimal span efficiency of an elliptical ring
-follows $e = 1 + h/b$ to within $8\times10^{-4}$ across the full range,
-suggesting an exact law; (iii)~maps the superellipse family
+follows $e = 1 + h/b$ across the full range, with Richardson
+extrapolation of the observed first-order grid convergence reducing the
+residual to $10^{-6}$---strong evidence of an exact law; (iii)~maps the superellipse family
 $|y/a|^p+|z/c|^p=1$ between ellipse and box, finding that a $p=4$
 ``squircle'' captures roughly three quarters of the box-wing benefit and
 $p=6$ captures $85\%$; and (iv)~quantifies the penalty of loading a central
@@ -168,6 +169,16 @@ independent ellipse parameterisation to $1.5\times10^{-3}$, and an
 unconstrained central body takes up zero loading, leaving $e$ unchanged,
 as Munk's stagger theorem requires.
 
+The discretisation error of the kernel is cleanly first order: the
+planar-wing bias $e-1$ falls from $+6.3\times10^{-3}$ at $n=200$ to
+$+3.9\times10^{-4}$ at $n=3200$, halving at each doubling of resolution
+(observed ratio $2.00$). Absolute efficiencies reported at production
+resolutions therefore carry a systematic bias below $+0.3\%$, while
+efficiency \emph{ratios} between geometries computed on matched grids
+are unaffected. Corner resolution is likewise benign even for the
+squarest rings studied: at $p=12$, $h/b=0.5$, the efficiency changes by
+only $1.6\times10^{-4}$ between $n=384$ and $n=3072$.
+
 \begin{table}[htb]
 \centering
 \caption{Validation against classical results.}
@@ -201,13 +212,20 @@ e_{\mathrm{ellipse}} = 1 + \frac{h}{b}
 \label{eq:law}
 \end{equation}
 with a maximum deviation of $7.9\times10^{-4}$ over
-$h/b \in [0.1, 1]$. The deviation decreases monotonically with $h/b$,
+$h/b \in [0.1, 1]$. The deviation decreases monotonically with $h/b$ and
 vanishes at the circle (where Eq.~\eqref{eq:law} gives the exact
-classical value $e=2$), and shrinks with grid refinement, indicating a
-discretisation residual rather than a physical departure. The author is
-not aware of Eq.~\eqref{eq:law} being stated in the literature for
-elliptical closed traces; it is offered here as a numerically supported
-conjecture, plausibly provable in elliptic coordinates.
+classical value $e=2$). A grid-convergence study at $h/b=0.3$ shows the
+deviation halving at each doubling of resolution
+($+2.9\times10^{-3}$ at $n=384$ down to $+3.7\times10^{-4}$ at
+$n=3072$); Richardson extrapolation of the observed first-order sequence
+drives it to $+1\times10^{-6}$, i.e.\ the relation holds to the
+numerical precision available here. The author has not located
+Eq.~\eqref{eq:law} in the accessible literature for elliptical closed
+traces; closed-form treatments of \emph{circular} annular wings
+exist~\cite{cone1962,demasi2007}, and the relation may be derivable
+from, or implicit in, such analyses---it is offered as a numerically
+supported conjecture, plausibly provable in elliptic coordinates, with
+the literature question flagged for the reader.
 
 \begin{figure}[htb]
 \centering
@@ -258,6 +276,16 @@ body's shed vorticity partially merges with the ring's own optimal
 sheet; at mid-gap it is maximally exposed. The design rule is simple:
 \emph{blend the cabin into an arc of the ring; never suspend it at
 mid-height}.
+
+Both conclusions are robust to the assumed body width, and the width
+itself turns out to matter strongly. Repeating the placement study with
+body widths of $0.3\,b$, $0.5\,b$, and $0.7\,b$ preserves the monotone
+arc-hugging ordering in every case; but at fixed placement and lift
+share the penalty falls sharply as the body widens (at mid-height with
+$f=0.2$: $e=0.88$ at width $0.3\,b$ versus $1.23$ at $0.7\,b$), because
+a narrow body must shed its vorticity in a concentrated, expensive
+pair. This adds a second design rule: \emph{if the central body must
+carry lift, make it wide}---a natural fit for lifting-body cabins.
 
 \begin{figure}[htb]
 \centering
@@ -333,7 +361,13 @@ percent. The conclusion is unusually favourable: unlike the planar wing,
 whose rectangular planform loses $3\%$ and needs significant washout to
 recover it, a closed ring is nearly self-optimising. Sensitivity to
 chord is likewise mild: the untwisted superellipse ring stays within
-$97.9$--$99.7\%$ of ideal for $c/b$ between $0.05$ and $0.20$. (The
+$97.9$--$99.7\%$ of ideal for $c/b$ between $0.05$ and $0.20$. The
+result also survives stagger, which practical ring configurations
+use for trim and cabin integration: offsetting the upper arc aft and
+the lower arc forward by up to $0.5\,b$ in total reduces the untwisted
+recovery only from $99.1\%$ to $98.1\%$, and the optimised twist
+remains small ($2.1^\circ$)---consistent with Munk's stagger theorem,
+which guarantees the ideal bound itself is stagger-independent. (The
 twist-optimised entries in Table~\ref{tab:vlm} match the ideal by
 construction---with one twist variable per strip the target loading is
 matched essentially exactly; the substantive finding is that the twist
@@ -451,6 +485,9 @@ An Exact Solution of the Prandtl's Problem,'' in \emph{Variational
 Analysis and Aerospace Engineering}, Springer, 2009.
 \bibitem{katz2001} J.~Katz and A.~Plotkin, \emph{Low-Speed
 Aerodynamics}, 2nd ed., Cambridge University Press, 2001.
+\bibitem{demasi2007} L.~Demasi, ``Investigation on Conditions of
+Minimum Induced Drag of Closed Wing Systems and C-Wings,''
+\emph{Journal of Aircraft}, 44(1):81--99, 2007.
 \end{thebibliography}
 
 \end{document}

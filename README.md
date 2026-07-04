@@ -72,6 +72,22 @@ form), and **< 1 degree of twist recovers the rest** (ellipse 0.76 deg,
 superellipse p=4 0.63 deg). Chord sensitivity mild: 97.9-99.7% of ideal
 across c/b = 0.05-0.20. So the Trefftz bounds are practically attainable.
 
+## Robustness / red-team pass (`run_robustness.py`)
+
+- Kernel bias is cleanly first-order (planar bias halves per grid
+  doubling, ratio 2.00); production-resolution absolute e biased < +0.3%,
+  same-grid ratios unaffected.
+- e = 1 + h/b: deviation halves with n; Richardson extrapolation -> 1e-6.
+  Effectively exact. Novelty caveat added: closed-form annular-wing
+  analyses (Cone 1962; Demasi, J. Aircraft 2007) may contain it — check
+  before submission.
+- Superellipse corners converged (p=12: Δe = 1.6e-4 across 8x grids).
+- Cabin conclusions robust to spine width (0.3–0.7b, ordering preserved).
+  NEW finding: wider body = much cheaper lift (f=0.2 mid-height: e 0.88 at
+  0.3b vs 1.23 at 0.7b) -> second design rule "if it must lift, make it wide".
+- VLM untwisted near-optimality survives 0.5b stagger (99.1% -> 98.1%,
+  twist-opt still 100% with 2.1 deg).
+
 ## Files
 
 - `trefftz.py` — solver (geometries: planar, box, ellipse, ellipse+spine)
