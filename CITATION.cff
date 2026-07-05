@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this software or the results, please cite it as below."
+type: software
+title: "Trefftz-plane and vortex-lattice study of superelliptical closed lifting systems"
+authors:
+  - family-names: Parganiha
+    given-names: Harshwardhan
+version: 1.0.0
+date-released: 2026-07-05
+license: MIT
+# TODO after publishing: add repository-code (GitHub URL) and doi (Zenodo).
+keywords:
+  - induced drag
+  - ring wing
+  - closed wing systems
+  - box wing
+  - superellipse
+  - Trefftz plane
+  - vortex lattice method
+preferred-citation:
+  type: article
+  title: "Minimum induced drag of superelliptical closed lifting systems with a loaded central body"
+  authors:
+    - family-names: Parganiha
+      given-names: Harshwardhan
+  year: 2026
+  notes: "Preprint; submitted for peer review."

@@ -106,8 +106,37 @@ across c/b = 0.05-0.20. So the Trefftz bounds are practically attainable.
    e ≈ 1 + h/b conjecture; limits (inviscid, optimal loading, rigid wake)
 6. Future work — VLM with finite chord + trim; subscale flight demonstrator
 
+## Reproducing everything
+
+```
+pip install -r requirements.txt
+python run_study.py        # validation + box/ellipse sweep + spine lift share
+python run_extended.py     # superellipse family + cabin height + law test
+python run_vlm.py          # finite-chord VLM gates + ring cross-check
+python run_robustness.py   # grid convergence, Richardson, width/stagger checks
+```
+
+All results are deterministic; the four scripts regenerate every number and
+figure in the paper. Compile the manuscript with `tectonic paper/main.tex`
+(or upload `paper/` to Overleaf).
+
+## Licensing and citation
+
+Code and data: MIT (see LICENSE). Manuscript and figures: CC BY 4.0.
+Cite via CITATION.cff (add the GitHub URL and Zenodo DOI after release).
+
+## AI-assistance disclosure
+
+The numerical implementation and the manuscript draft were produced with
+substantial assistance from an AI system (Anthropic Claude), working under
+the author's direction. All methods and results were studied and
+independently re-run by the author. Venue policies on AI assistance vary
+sharply — JEI in particular prohibits AI-conducted modelling and writing —
+so venue fit must be checked before any journal submission.
+
 ## Integrity notes
 
 - Methods must be fully understood and defensible by the author.
-- Disclose AI assistance per venue policy.
+- Disclose AI assistance per venue policy; check each venue's AI rules
+  BEFORE submitting (they differ drastically).
 - No pay-to-publish venues.

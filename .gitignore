@@ -1,1 +1,3 @@
 paper/tectonic.exe
+verify_*.log
+__pycache__/
