@@ -4,7 +4,7 @@ type: software
 title: "Trefftz-plane and vortex-lattice study of superelliptical closed lifting systems"
 authors:
   - family-names: Parganiha
-    given-names: Harshwardhan
+    given-names: Somesh
 version: 1.0.0
 date-released: 2026-07-05
 license: MIT
@@ -22,6 +22,6 @@ preferred-citation:
   title: "Minimum induced drag of superelliptical closed lifting systems with a loaded central body"
   authors:
     - family-names: Parganiha
-      given-names: Harshwardhan
+      given-names: Somesh
   year: 2026
   notes: "Preprint; submitted for peer review."

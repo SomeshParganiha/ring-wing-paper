@@ -1,7 +1,7 @@
 # Span efficiency of elliptical closed lifting systems with a loaded central body
 
 Research project for a paper (target: Zenodo preprint + Journal of Emerging
-Investigators / NHSJS submission). Author: Harshwardhan Parganiha.
+Investigators / NHSJS submission). Author: Somesh Parganiha.
 
 ## Research question
 
