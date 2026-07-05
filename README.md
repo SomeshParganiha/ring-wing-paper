@@ -127,11 +127,12 @@ Cite via CITATION.cff (add the GitHub URL and Zenodo DOI after release).
 
 ## AI-assistance disclosure
 
-Anthropic's Claude served as a tutor for the underlying aerodynamic theory
-throughout this project and, beyond tutoring, provided substantial
-assistance with the numerical implementation and the manuscript draft,
-working under the author's direction. All methods and results were studied
-and independently re-run by the author. Venue policies on AI assistance vary
+The author conceived and directed this work, studied the underlying theory,
+reproduced and verified all results, and is responsible for the final
+manuscript. In support of that work, Anthropic's Claude served as a tutor
+for the theory and provided assistance with the numerical implementation
+and an initial manuscript draft, prepared under the author's direction and
+subsequently reviewed and revised by the author. Venue policies on AI assistance vary
 sharply — JEI in particular prohibits AI-conducted modelling and writing —
 so venue fit must be checked before any journal submission.
 
