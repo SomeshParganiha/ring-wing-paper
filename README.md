@@ -122,7 +122,9 @@ figure in the paper. Compile the manuscript with `tectonic paper/main.tex`
 
 ## Licensing and citation
 
-Code and data: MIT (see LICENSE). Manuscript and figures: CC BY 4.0.
+Source code and data files (repository root): MIT License — see
+[LICENSE](LICENSE). Manuscript and figures (`paper/`): Creative Commons
+Attribution 4.0 (CC BY 4.0) — see [paper/LICENSE](paper/LICENSE).
 Archived on Zenodo: [doi:10.5281/zenodo.21205563](https://doi.org/10.5281/zenodo.21205563)
 (concept DOI — always resolves to the latest version). Cite via CITATION.cff.
 
