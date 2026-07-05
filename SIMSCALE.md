@@ -1,6 +1,6 @@
-# Running the Vyoma-3 prototype on SimScale
+# Running the Vyoma prototype on SimScale
 
-Files: `vyoma3.stl` (ring + cabin) and `vyoma3_ring_only.stl` (fallback if
+Files: `vyoma.stl` (ring + cabin) and `vyoma_ring_only.stl` (fallback if
 the two-body model gives meshing trouble). Full scale, metres.
 Regenerate anytime with `python gen_stl.py`.
 
@@ -8,8 +8,8 @@ Regenerate anytime with `python gen_stl.py`.
 
 1. Create a free Community account at simscale.com (community plan =
    public projects, cloud compute included).
-2. Dashboard -> New Project -> name it `vyoma3-ring-wing`.
-3. Import geometry -> upload `vyoma3.stl` -> units **metres**.
+2. Dashboard -> New Project -> name it `vyoma-ring-wing`.
+3. Import geometry -> upload `vyoma.stl` -> units **metres**.
 
 ## 2. Simulation setup (virtual wind tunnel)
 

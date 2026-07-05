@@ -80,7 +80,7 @@ def main():
         print(f"  h/b={hb:.2f}   e={e:.5f}   e-(1+h/b)={dev:+.5f}")
     print(f"  max |deviation| = {dev_max:.5f}")
 
-    print("\n=== 8. Design point: Vyoma-3 squircle ring ===")
+    print("\n=== 8. Design point: Vyoma squircle ring ===")
     hb, p = 0.50, 4.0
     ring = tz.superellipse_ring(hb, p, n=768)
     e_free = tz.solve(ring)["e"]
@@ -100,7 +100,7 @@ def main():
     plt.gca().set_aspect("equal")
     plt.xlabel("y / semispan")
     plt.ylabel("z / semispan")
-    plt.title("Vyoma-3 design point: p=4 squircle, low cabin at 15% lift")
+    plt.title("Vyoma design point: p=4 squircle, low cabin at 15% lift")
     plt.tight_layout()
     plt.savefig("design_point_loading.png", dpi=160)
     print("wrote results_superellipse.csv, results_spine_height.csv + 3 figures")

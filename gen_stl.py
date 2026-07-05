@@ -1,4 +1,4 @@
-"""Generate a watertight STL of the Vyoma-3 prototype for CFD (SimScale).
+"""Generate a watertight STL of the Vyoma prototype for CFD (SimScale).
 
 Geometry (metres, full scale):
 - Ring: superellipse p=4 trace, span b=36 (a=18), height h=18 (h/b=0.5),
@@ -10,7 +10,7 @@ Geometry (metres, full scale):
   at this fidelity).
 
 Axes: x = downstream (flow direction), y = span, z = up.
-Output: vyoma3.stl (binary), plus vyoma3_ring_only.stl
+Output: vyoma.stl (binary), plus vyoma_ring_only.stl
 """
 
 import struct
@@ -145,7 +145,7 @@ def write_stl(path, shells):
         payload.append((v[good], unit[good]))
     total = sum(len(v) for v, _ in payload)
     with open(path, "wb") as f:
-        f.write(b"Vyoma-3 ring-wing prototype".ljust(80, b"\0"))
+        f.write(b"Vyoma ring-wing prototype".ljust(80, b"\0"))
         f.write(struct.pack("<I", total))
         for v, unit in payload:
             for k in range(len(v)):
@@ -162,8 +162,8 @@ def main():
     cv, ct = cabin_shells()
     ct = orient_outward(cv, ct)
 
-    write_stl("vyoma3_ring_only.stl", [(rv, rt)])
-    write_stl("vyoma3.stl", [(rv, rt), (cv, ct)])
+    write_stl("vyoma_ring_only.stl", [(rv, rt)])
+    write_stl("vyoma.stl", [(rv, rt), (cv, ct)])
 
     vol_r = signed_volume(rv, rt)
     vol_c = signed_volume(cv, ct)
