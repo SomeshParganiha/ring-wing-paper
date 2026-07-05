@@ -34,7 +34,7 @@ extrapolation of the observed first-order grid convergence reducing the
 residual to $10^{-6}$---strong evidence of an exact law; (iii)~maps the superellipse family
 $|y/a|^p+|z/c|^p=1$ between ellipse and box, finding that a $p=4$
 ``squircle'' captures roughly three quarters of the box-wing benefit and
-$p=6$ captures $85\%$; and (iv)~quantifies the penalty of loading a central
+$p=6$ some $83$--$85\%$; and (iv)~quantifies the penalty of loading a central
 body, which is smallest when the body hugs either arc of the ring and
 largest at mid-height. A finite-chord vortex-lattice cross-check shows the
 ideal efficiencies are practically attainable: untwisted rings at uniform
@@ -159,7 +159,7 @@ fore and aft) of width $0.4$--$0.5\,b$ at height $z = z_f h$.
 
 Three classical results serve as validation targets
 (Table~\ref{tab:validation}). The planar wing recovers Munk's $e=1$ to
-$0.3\%$ at $n=400$. The box wing at $h/b=0.2$ converges to $e=1.472$,
+within about $0.3\%$ ($e=1.0031$) at $n=400$. The box wing at $h/b=0.2$ converges to $e=1.472$,
 consistent with Prandtl's approximate value $\approx1.46$ and with later
 exact treatments~\cite{prandtl1924,frediani2009}. The circular ring
 converges to the classical $e=2$~\cite{cone1962} to four decimal places,
@@ -173,7 +173,8 @@ The discretisation error of the kernel is cleanly first order: the
 planar-wing bias $e-1$ falls from $+6.3\times10^{-3}$ at $n=200$ to
 $+3.9\times10^{-4}$ at $n=3200$, halving at each doubling of resolution
 (observed ratio $2.00$). Absolute efficiencies reported at production
-resolutions therefore carry a systematic bias below $+0.3\%$, while
+resolutions therefore carry a systematic bias of order $+0.3\%$ or less
+(and well below that for the finer grids used in the sweeps), while
 efficiency \emph{ratios} between geometries computed on matched grids
 are unaffected. Corner resolution is likewise benign even for the
 squarest rings studied: at $p=12$, $h/b=0.5$, the efficiency changes by
@@ -321,7 +322,7 @@ ideal results, so achieved and ideal efficiencies are measured by an
 identical ruler. The method passes three gates: an elliptical-planform
 wing of $AR=8$ recovers $99.9\%$ of its same-grid ideal with lift-curve
 slope $4.80$ per radian (lifting-surface level, slightly below the
-Helmbold value $5.03$); near-field Kutta--Joukowski lift agrees with the
+classical lifting-line value $2\pi/(1+2/AR)=5.03$ at $AR=8$); near-field Kutta--Joukowski lift agrees with the
 Trefftz lift to $0.4\%$; and the results are independent of chordwise
 resolution to $2\times10^{-4}$ between 4 and 12 panels.
 
@@ -458,7 +459,9 @@ achieved (as opposed to ideal) efficiency.
 
 The Trefftz-plane solver and the vortex-lattice cross-check
 ($\sim$500 lines of Python in total), all run scripts, and all data
-tables are available at [repository URL / Zenodo DOI].
+tables are available at
+\url{https://github.com/SomeshParganiha/ring-wing-paper}
+(archived on Zenodo; DOI to be added on release).
 
 \section*{Acknowledgements and disclosure}
 
@@ -473,9 +476,6 @@ independently re-run and are fully understood by the author.
 
 \begin{thebibliography}{9}
 \itemsep0pt
-% Reference status (2026-07-05): Demasi title/volume/pages/DOI verified
-% online; Cone report number verified online. TODO(author): read the
-% originals (NTRS has Munk/Prandtl/Cone free) before submission.
 \bibitem{munk1921} M.~M. Munk, ``The Minimum Induced Drag of Aerofoils,''
 NACA Report No.~121, 1921.
 \bibitem{prandtl1924} L.~Prandtl, ``Induced Drag of Multiplanes,''

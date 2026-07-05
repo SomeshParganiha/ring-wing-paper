@@ -1,6 +1,6 @@
 """Finite-chord VLM cross-check of the Trefftz-plane ideal efficiencies.
 
-Gate 1  planar elliptical planform, AR = 8: e ~ 1.0, CL_alpha ~ Helmbold
+Gate 1  planar elliptical planform, AR = 8: e ~ 1.0, CL_alpha ~ lifting-line
 Gate 2  planar rectangular planform, AR = 8: e < elliptical; twist-optimised
         recovers e ~ 1.0 (validates the twist machinery)
 Gate 3  chordwise-resolution independence
@@ -56,11 +56,11 @@ def main():
     cl = res["L"] / (0.5 * model.area())
     cla = cl / ALPHA
     ar = res["span"] ** 2 / model.area()
-    helmbold = 2.0 * np.pi / (1.0 + 2.0 / ar)
+    lifting_line = 2.0 * np.pi / (1.0 + 2.0 / ar)
     l_kj = model.lift_kutta_joukowski(model.solve(ALPHA), ALPHA)
     print(f"  e = {res['e']:.4f} = {100*res['e']/e_grid:.1f}% of the "
           f"same-grid ideal ({e_grid:.4f})   (target ~100%)")
-    print(f"  CL_alpha = {cla:.3f} /rad   (Helmbold {helmbold:.3f}; "
+    print(f"  CL_alpha = {cla:.3f} /rad   (lifting-line {lifting_line:.3f}; "
           f"lifting-surface values sit slightly below lifting-line)")
     print(f"  lift check: Trefftz {res['L']:.5f} vs Kutta-Joukowski "
           f"{l_kj:.5f}  ({100*abs(l_kj/res['L']-1):.2f}% apart)")
