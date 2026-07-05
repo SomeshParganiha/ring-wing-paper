@@ -8,7 +8,9 @@ authors:
 version: 1.0.0
 date-released: 2026-07-05
 license: MIT
-# TODO after publishing: add repository-code (GitHub URL) and doi (Zenodo).
+doi: 10.5281/zenodo.21205563
+repository-code: "https://github.com/SomeshParganiha/ring-wing-paper"
+url: "https://doi.org/10.5281/zenodo.21205563"
 keywords:
   - induced drag
   - ring wing
