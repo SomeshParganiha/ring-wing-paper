@@ -5,8 +5,8 @@ title: "Trefftz-plane and vortex-lattice study of superelliptical closed lifting
 authors:
   - family-names: Parganiha
     given-names: Somesh
-version: 1.0.0
-date-released: 2026-07-05
+version: 1.1.0
+date-released: 2026-07-28
 license: MIT
 doi: 10.5281/zenodo.21205563
 repository-code: "https://github.com/SomeshParganiha/ring-wing-paper"
