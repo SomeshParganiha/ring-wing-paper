@@ -133,8 +133,7 @@ Archived on Zenodo: [doi:10.5281/zenodo.21205563](https://doi.org/10.5281/zenodo
 The author conceived and directed this work, studied the underlying theory,
 reproduced and verified all results, and is responsible for the final
 manuscript. In support of that work, Anthropic's Claude served as a tutor
-for the theory and provided assistance with the numerical implementation
-and an initial manuscript draft, prepared under the author's direction and
+for the theory and provided assistance with the numerical implementation, prepared under the author's direction and
 subsequently reviewed and revised by the author. Venue policies on AI assistance vary
 sharply — JEI in particular prohibits AI-conducted modelling and writing —
 so venue fit must be checked before any journal submission.
