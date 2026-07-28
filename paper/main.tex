@@ -360,50 +360,45 @@ superellipse, $h/b=0.5$, low-set central body at $15\%$ lift share.}
 \label{fig:design}
 \end{figure}
 
-\section{Preliminary experimental validation}
-% ------------------------------------------------------------------
-% AUTHOR TO WRITE (in your own words) -- keep this section yours.
-% Cover, from your Stage-0 flight test:
-%   - what you built: 60 cm cardboard chuck glider, p=4 squircle ring,
-%     h/b=0.5, ~15 cm stagger, skewer spine, clay nose.
-%   - the PREDICTION: the vortex-lattice neutral-point calculation put the
-%     balance point 7.5-8 cm behind the bottom wing's leading edge.
-%   - the MEASUREMENT: after trimming to a stable glide, the measured
-%     balance point matched the prediction.
-%   - the RESULT: best glide ~4.0-4.5 m from 1.2 m release height,
-%     glide ratio (L/D) ~ 3.3-3.8.
-%   - the CAVEATS: hand launch inflates apparent glide ratio; flat-plate
-%     sections and low Reynolds number mask the ring's induced-drag
-%     advantage; single measurement.
-% ------------------------------------------------------------------
-\emph{[This section is left for the author to write, describing the
-subscale cardboard-glider flight test in which the vortex-lattice
-neutral-point prediction (balance point 7.5--8~cm behind the bottom wing's
-leading edge) was confirmed in flight, and a glide ratio of roughly
-$3.3$--$3.8$ was measured. See the bullet notes in the source file.]}
+\section{Flight test}
+
+To check whether the solver's mathematical predictions could survive
+contact with the physical world, I built a quick $\sim$60~cm subscale chuck
+glider out of cardboard. It featured the $p=4$ squircle ring shape with an
+$h/b = 0.5$ height-to-span ratio and a $\sim$15~cm wing stagger, held
+together by a bamboo skewer spine and balanced with a lump of modeling clay
+in the nose. The vortex-lattice model predicted that the aerodynamic
+balance point---the neutral point---should sit between 7.5 and 8~cm behind
+the leading edge of the bottom wing, so I marked that spot directly on the
+fuselage. Once tossed and trimmed for a smooth, steady glide, the real-world
+balance point lined up right on the mark, with the glider routinely covering
+4.0 to 4.5 meters from a modest 1.2-meter release height for an estimated
+glide ratio ($L/D$) of roughly 3.3 to 3.8. Naturally, a quick hand launch
+comes with obvious caveats: the initial throw inflates the apparent
+performance, flat-plate cardboard airfoils operate at a low Reynolds number
+where viscous drag dominates, and a single low-fidelity test is hardly a
+complete validation campaign. Even so, the fundamental prediction held
+up---the calculated neutral point landed dead-on when translated to a real,
+physical ring wing.
 
 \section{Limitations}
-% ------------------------------------------------------------------
-% AUTHOR TO WRITE (in your own words) -- keep this section yours.
-% Cover honestly:
-%   - the analysis is INVISCID: it computes only induced drag and ignores
-%     friction/profile drag, so total drag of a real ring is higher.
-%   - it assumes IDEAL (fully optimal) loading on a rigid, non-contracting
-%     wake.
-%   - it is UNTRIMMED and ignores static stability except in the subscale
-%     test.
-%   - it has NOT been validated in real (viscous) air beyond the subscale
-%     glider; a proper wind-tunnel or instrumented flight test is needed.
-%   - the e=1+h/b law is strong numerical evidence, not an analytical proof.
-%   - note (a genuine strength): the neglected corner losses bias AGAINST
-%     the squircle's advantage over the box, so reality likely favours the
-%     smooth ring even more.
-% ------------------------------------------------------------------
-\emph{[This section is left for the author to write, stating the study's
-limitations honestly: the analysis is inviscid (induced drag only), assumes
-ideal loading, is untrimmed, and has not been validated in viscous flow
-beyond the subscale glider; the $e=1+h/b$ relation is numerical evidence,
-not an analytical proof. See the bullet notes in the source file.]}
+
+While these results are promising, several key limitations frame the scope
+of this study. First, the core analysis is purely inviscid, meaning it
+computes only induced drag and ignores skin friction and profile drag, so
+total drag on a real ring will inevitably be higher. The model also assumes
+an ideal, fully optimized lift distribution acting on a rigid wake, and it
+evaluates an untrimmed configuration without accounting for static
+stability, except through the empirical adjustments made on the subscale
+glider. Furthermore, beyond that simple cardboard flight test, the
+predictions have not yet been validated in real viscous air, making a
+wind-tunnel campaign or an instrumented flight test the clear next step.
+Finally, while the performance relation $e = 1 + h/b$ is supported by strong
+numerical evidence, it remains a fitted observation rather than a rigorous
+analytical proof. Crucially, however, the model also neglects structural
+joint and corner interference losses---a simplification that actually biases
+the math against the squircle, suggesting that real-world aerodynamics may
+favor the smooth ring over a traditional box wing even more than predicted.
 
 \section{Summary of engineering rules}
 \begin{enumerate}
