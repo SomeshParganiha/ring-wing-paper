@@ -26,8 +26,15 @@ N_LOOP = 240
 N_SECT = 120      # points around one airfoil section (even)
 
 CAB_LEN, CAB_W, CAB_H = 20.0, 18.0, 3.5
-CAB_X0, CAB_Z0 = 2.0, 2.7      # centre of cabin (x aft of ring origin, z)
+# Cabin fore-aft centre. The cabin is ~85% of the airframe volume, so its
+# x-position sets the whole-vehicle CG. It is placed so the (uniform-density)
+# CG sits ~12% chord AHEAD of the ring's aerodynamic neutral point
+# (x_np ~ -0.23 m), i.e. a positive static margin -> longitudinally stable,
+# and so the body blends toward the forward-low arc as the paper intends.
+CAB_X0, CAB_Z0 = -0.9, 2.7      # centre of cabin (x, z), metres
 N_CAB_X, N_CAB_PHI = 60, 80
+
+X_NP = -0.23                    # ring neutral point, m (see compute_np.py)
 
 
 def naca_thickness(xc, t=THICK):
@@ -125,6 +132,16 @@ def signed_volume(verts, tris):
                      np.cross(v[:, 1], v[:, 2])).sum() / 6.0
 
 
+def volume_centroid(verts, tris):
+    """Enclosed volume and its centroid (divergence theorem)."""
+    v = verts[np.array(tris)]
+    a, b, c = v[:, 0], v[:, 1], v[:, 2]
+    vol6 = np.einsum("ij,ij->i", a, np.cross(b, c))
+    vol = vol6.sum() / 6.0
+    cent = ((a + b + c) * vol6[:, None]).sum(axis=0) / (4.0 * vol6.sum())
+    return abs(vol), cent
+
+
 def orient_outward(verts, tris):
     if signed_volume(verts, tris) < 0.0:
         tris = [(a, c, b) for (a, b, c) in tris]
@@ -178,6 +195,15 @@ def main():
     cab_lo = cv[:, 2].min()
     print(f"cabin lowest z = {cab_lo:.2f}; ring section band bottom "
           f"~ {ring_lo:.2f} (clearance kept for clean meshing)")
+
+    # --- self-check: uniform-density CG vs aerodynamic neutral point ---
+    Vr2, Cr = volume_centroid(rv, rt)
+    Vc2, Cc = volume_centroid(cv, ct)
+    cg_x = (Vr2 * Cr[0] + Vc2 * Cc[0]) / (Vr2 + Vc2)
+    margin = (X_NP - cg_x) / CHORD          # +ve = CG ahead of NP = stable
+    print(f"uniform-density CG x = {cg_x:+.2f} m ; neutral point "
+          f"x = {X_NP:+.2f} m ; static margin = {100 * margin:+.0f}% chord "
+          f"({'STABLE' if margin > 0 else 'UNSTABLE'})")
 
     # reference values for CFD force coefficients
     th = np.linspace(0.0, 2.0 * np.pi, 20000, endpoint=False)

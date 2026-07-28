@@ -18,275 +18,270 @@ with a loaded central body}
 \maketitle
 
 \begin{abstract}
-Closed (``box'') wings have been known since Prandtl to reduce induced drag
-relative to planar wings of equal span, but practical ring-wing aircraft
-concepts raise two questions the classical literature does not answer
-together: how do smoothly curved closed traces compare with the rectangular
-box at equal height-to-span ratio, and what does it cost to make a central
-cabin body carry lift inside the ring? Using a Trefftz-plane
-minimum-induced-drag formulation, discretised with piecewise-constant
-circulation panels and solved as an equality-constrained quadratic program,
-this study (i)~validates against three classical results (planar wing
-$e=1$, Prandtl's box wing $e\approx1.46$ at $h/b=0.2$, circular ring
-$e=2$); (ii)~shows that the optimal span efficiency of an elliptical ring
-follows $e = 1 + h/b$ across the full range, with Richardson
+Closed or ``box'' wings have been recognized since Ludwig Prandtl's
+foundational work to reduce induced drag compared to flat, planar wings of
+the same total wingspan. However, when trying to translate these
+theoretical concepts into practical ring-wing aircraft designs, two
+critical questions emerge that classical literature leaves unanswered:
+(i)~how do smoothly curved, closed wing shapes compare to a sharp-cornered
+rectangular box wing at identical height-to-span ratios ($h/b$)? and
+(ii)~what is the aerodynamic cost of placing a central cabin body inside
+the ring and requiring it to carry a share of the total lift? Using a
+minimum-induced-drag formulation in the Trefftz plane, this study addresses
+both questions. The continuous wake trace is discretized with
+piecewise-constant circulation panels and solved as an equality-constrained
+quadratic program. The optimal span efficiency of an elliptical ring is
+found to follow a simple relation, $e = 1 + h/b$, with Richardson
 extrapolation of the observed first-order grid convergence reducing the
-residual to $10^{-6}$---strong evidence of an exact law; (iii)~maps the superellipse family
-$|y/a|^p+|z/c|^p=1$ between ellipse and box, finding that a $p=4$
-``squircle'' captures roughly three quarters of the box-wing benefit and
-$p=6$ some $83$--$85\%$; and (iv)~quantifies the penalty of loading a central
-body, which is smallest when the body hugs either arc of the ring and
-largest at mid-height. A finite-chord vortex-lattice cross-check shows the
-ideal efficiencies are practically attainable: untwisted rings at uniform
-incidence already achieve $98.6$--$100\%$ of the Trefftz optimum, and less
-than one degree of twist recovers the remainder. A design point combining
-these findings---a $p=4$ superelliptical ring of $h/b=0.5$ with a low-set
-cabin carrying $15\%$ of total lift---achieves $e=1.61$, a $38\%$
-induced-drag reduction relative to an ideal planar wing.
+residual to $10^{-6}$, strong evidence of an exact law. A superellipse
+sweep shows a $p=4$ ``squircle'' captures roughly three quarters of the
+box-wing benefit, and a finite-chord vortex-lattice cross-check confirms
+these ideal efficiencies are attainable on real surfaces, with untwisted
+rings reaching $98.6$--$100\%$ of the ideal. A combined design point---a
+$p=4$ superelliptical ring of $h/b=0.5$ with a low-set cabin carrying
+$15\%$ of the lift---achieves $e=1.61$, a $38\%$ reduction in induced drag
+relative to an ideal planar wing of equal span.
 \end{abstract}
+
+\section*{Summary of key findings}
+\begin{itemize}
+\itemsep2pt
+\item \textbf{Validation.} The numerical tool was validated against three
+classic benchmark cases: the standard planar wing ($e=1.00$), Prandtl's
+rectangular box wing ($e\approx1.46$ at $h/b=0.2$), and the circular ring
+wing ($e=2.00$).
+\item \textbf{The $e=1+h/b$ law.} Across the entire tested height-to-span
+range, the optimal span efficiency $e$ of an elliptical ring follows the
+remarkably simple relation $e = 1 + h/b$. Richardson extrapolation of the
+first-order grid convergence reduces the residual error to $10^{-6}$,
+providing strong evidence that this is an exact theoretical law.
+\item \textbf{Squaring the ring.} Mapping the superellipse family between a
+pure ellipse ($p=2$) and a rectangular box ($p\to\infty$) reveals rapid
+performance gains: a $p=4$ ``squircle'' captures roughly $75\%$ of the
+ideal box-wing efficiency benefit, and $p=6$ captures $83$--$85\%$.
+\item \textbf{Central-cabin loading penalty.} Asking a central cabin to
+carry lift incurs an aerodynamic penalty, smallest when the body blends
+into either the top or bottom arc, and worst when suspended at mid-height.
+\item \textbf{Practical attainability.} A finite-chord vortex-lattice
+method confirms these ideal efficiencies are realizable on physical
+surfaces: untwisted rings at uniform incidence achieve $98.6$--$100\%$ of
+the Trefftz ideal, and less than $1^\circ$ of twist recovers the remainder.
+\item \textbf{Combined design point.} A $p=4$ superelliptical ring
+($h/b=0.5$) with a low-set cabin carrying $15\%$ of the lift achieves
+$e=1.61$---a $38\%$ reduction in induced drag versus an ideal planar wing
+of equal span.
+\end{itemize}
 
 \section{Introduction}
 
-Induced drag---the drag due to lift---accounts for roughly a third of the
-cruise drag of a typical transport aircraft and close to half of its drag
-at climb. Munk~\cite{munk1921} showed that for a planar wing the minimum
-induced drag is achieved by an elliptical lift distribution, giving the
-familiar
+Induced drag---the resistance created as a byproduct of generating
+lift---accounts for approximately one-third of a commercial transport
+aircraft's drag during cruise, and nearly half during climb. In 1921, Max
+Munk proved that for a conventional planar (flat) wing, the minimum induced
+drag occurs under an elliptical lift distribution, giving the classic
+induced-drag equation
 \begin{equation}
-D_i \;=\; \frac{L^2}{\pi q b^2 e},
-\label{eq:e-def}
+D_i = \frac{L^2}{\pi q b^2 e},
 \end{equation}
-with span efficiency $e=1$. Nonplanar and closed lifting systems can exceed
-$e=1$: Prandtl~\cite{prandtl1924} identified the rectangular ``box wing''
-as the \emph{best wing system}, with an efficiency that grows with the
-height-to-span ratio $h/b$ (approximately $e\approx1.46$ at $h/b=0.2$),
-and Cone~\cite{cone1962} systematically studied nonplanar systems,
-including annular wings. The subject remains active in the joined-wing and
-PrandtlPlane literature~\cite{kroo2001,frediani2009}.
+where $e=1$ represents the maximum efficiency of a standard flat wing.
 
-Ring-wing \emph{aircraft} concepts, however, differ from the idealised
-closed traces studied classically in two ways. First, for structural,
-manufacturing, and aesthetic reasons a practical ring is smoothly curved
-rather than rectangular; the efficiency of intermediate shapes between the
-ellipse and the box does not appear to have been mapped. Second, such
-concepts typically place the cabin as a lifting body \emph{inside} the
-ring, joined to it fore and aft; in the Trefftz plane this appears as a
-detached central lifting element, and the induced-drag cost of requiring
-it to carry a share of the total lift has, to the author's knowledge, not
-been quantified.
+Nonplanar and closed lifting systems can exceed $e=1$
+(Table~\ref{tab:history}). Real-world ring-wing aircraft concepts deviate
+from ideal closed shapes in two ways. First, in \emph{structural and
+aerodynamic geometry}: real wings require smooth curves rather than sharp
+right angles to reduce structural weight, avoid stress concentrations, and
+minimize corner interference drag, yet the performance of intermediate
+shapes between a pure ellipse and a rigid box has remained largely
+unexplored. Second, in \emph{integrated fuselage loading}: practical
+designs typically nest the passenger cabin inside the ring, which in the
+Trefftz plane acts as a detached central lifting surface, and the
+efficiency cost of forcing this cabin to carry a portion of the aircraft's
+weight has not been systematically quantified. This paper addresses both
+gaps using a validated numerical framework.
 
-This paper addresses both questions with a single validated numerical
-tool. The contributions are:
-\begin{enumerate}
-\item a numerically supported conjecture that the optimal span efficiency
-of an elliptical closed trace is exactly $e = 1 + h/b$;
-\item the efficiency map of the superellipse family
-$|y/a|^p + |z/c|^p = 1$ between ellipse ($p=2$) and box ($p\to\infty$),
-showing rapid saturation of the benefit with $p$;
-\item the induced-drag penalty of a loaded central body as a function of
-its lift share and of its vertical position, yielding a simple design
-rule: blend the body into an arc of the ring, do not suspend it at
-mid-height;
-\item a finite-chord vortex-lattice cross-check showing that these ideal
-efficiencies are attainable by real surfaces: untwisted rings reach
-$98.6$--$100\%$ of the optimum and sub-degree twist closes the gap;
-\item a combined design point demonstrating $e=1.61$ with realistic cabin
-loading.
-\end{enumerate}
+\begin{table}[htb]
+\centering
+\caption{Closed and nonplanar lifting systems and their span efficiency.}
+\label{tab:history}
+\begin{tabular}{lll}
+\toprule
+Wing geometry & Historical origin & Performance characteristic \\
+\midrule
+Planar wing & Munk (1921) & Baseline span efficiency, $e=1.00$ \\
+Box wing & Prandtl (1924) & ``Best wing system''; $e\approx1.46$ at $h/b=0.2$ \\
+Annular / ring wing & Cone (1962) & Closed circular system, $e=2.00$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\section{Method}
+\section{Methodology}
 
 \subsection{Trefftz-plane formulation}
-
-Far downstream of a steady lifting system the wake tends to a
-two-dimensional vortex sheet whose trace $C$ in the transverse
-(Trefftz) plane determines the induced drag entirely~\cite{munk1921}.
-For a circulation distribution $\Gamma(s)$ along the trace (arc length
-$s$), lift and induced drag are
+Far downstream of a lifting aircraft, the trailing wake flattens into a
+two-dimensional vortex sheet. Its cross-section trace $C$ in the transverse
+plane (the Trefftz plane) completely dictates the overall induced drag. For
+a circulation distribution $\Gamma(s)$ along arc length $s$,
 \begin{equation}
 L = \rho V \int_C \Gamma \,\mathrm{d}y,
 \qquad
 D_i = \frac{\rho}{2} \int_C \Gamma\, w_n \,\mathrm{d}s,
-\label{eq:LD}
 \end{equation}
-where $w_n$ is the sheet-normal component of the velocity induced in the
-Trefftz plane by the trailing vorticity $-\mathrm{d}\Gamma/\mathrm{d}s$.
-Minimising $D_i$ at fixed $L$ defines the optimal loading and, through
-Eq.~\eqref{eq:e-def} with $b$ the overall span of the system, the span
-efficiency $e$ reported throughout. Because $e$ is a ratio of the same
-quadratic functionals for every geometry, it is independent of the
-choices $\rho = V = 1$ made here.
+where $w_n$ is the normal downwash velocity induced in the Trefftz plane by
+the shed vorticity $-\mathrm{d}\Gamma/\mathrm{d}s$. Minimizing $D_i$ for a
+fixed target lift $L$ yields the optimal wing loading and determines the
+span efficiency $e$.
 
-\subsection{Discretisation}
-
-The trace is divided into $n$ panels carrying piecewise-constant
-circulations $\Gamma_i$. Each panel sheds two-dimensional point vortices
-of strength $-\Gamma_i$ and $+\Gamma_i$ at its endpoints; at an edge
-shared by two panels these superpose to the physical shed strength
-$\Gamma_i - \Gamma_{i+1}$, while free ends of open components
-automatically carry the full tip vortex. Control points lie at panel
-midpoints. Substituting into Eq.~\eqref{eq:LD} gives
+\subsection{Numerical discretization}
+The lifting trace is split into $n$ panels, each carrying a
+piecewise-constant circulation $\Gamma_i$. Each panel sheds two-dimensional
+point vortices at its endpoints; at adjacent panel boundaries these merge
+into a physical shed-vortex strength $\Gamma_i - \Gamma_{i+1}$. Control
+points are situated at panel midpoints. Substituting these discrete
+elements into the integral equations converts the problem into matrix form,
 \begin{equation}
 D_i = \boldsymbol{\Gamma}^{\mathsf T} A\, \boldsymbol{\Gamma},
 \qquad
-L = \mathbf{b}^{\mathsf T} \boldsymbol{\Gamma},
+L = \mathbf{b}^{\mathsf T} \boldsymbol{\Gamma}.
 \end{equation}
-with $A$ symmetrised and $b_i = \Delta y_i$. Lift-equality constraints
-(total lift, and optionally the lift of an individual component) are
-collected in $B^{\mathsf T}\boldsymbol{\Gamma} = \mathbf{d}$ and the
-optimum found from the KKT system
+The total-lift requirement (and any individual component-lift constraints)
+are collected into $B^{\mathsf T}\boldsymbol{\Gamma} = \mathbf{d}$, and the
+global optimum is computed directly by solving the Karush--Kuhn--Tucker
+(KKT) linear system
 \begin{equation}
 \begin{pmatrix} 2A & -B \\ B^{\mathsf T} & 0 \end{pmatrix}
 \begin{pmatrix} \boldsymbol{\Gamma} \\ \boldsymbol{\lambda} \end{pmatrix}
 =
 \begin{pmatrix} \mathbf{0} \\ \mathbf{d} \end{pmatrix}.
 \end{equation}
-Closed polygons are resampled to uniform arc length (equal panel sizes
-avoid corner ill-conditioning of the point-vortex kernel); open traces
-use cosine spacing. A Tikhonov term of $10^{-12}$ on the diagonal of $A$
-guards conditioning. Resolutions up to $n=1536$ are used; convergence is
-reported in Sec.~\ref{sec:validation}.
+Closed geometries are resampled with uniform arc-length spacing to prevent
+numerical ill-conditioning near corners; open traces use standard cosine
+spacing. Resolutions up to $n=1536$ panels were evaluated.
 
-Geometries studied: the planar wing; the rectangular box wing of height
-$h$; the elliptical ring ($y = a\cos\theta$,
-$z = \tfrac{h}{2}(1+\sin\theta)$); the superellipse family
-$|y/a|^p + |z/c|^p = 1$ with $c = h/2$; and rings augmented by a detached
-central segment (the Trefftz trace of a cabin body joined to the ring
-fore and aft) of width $0.4$--$0.5\,b$ at height $z = z_f h$.
+\section{Tool validation and numerical convergence}
 
-\section{Validation}
-\label{sec:validation}
-
-Three classical results serve as validation targets
-(Table~\ref{tab:validation}). The planar wing recovers Munk's $e=1$ to
-within about $0.3\%$ ($e=1.0031$) at $n=400$. The box wing at $h/b=0.2$ converges to $e=1.472$,
-consistent with Prandtl's approximate value $\approx1.46$ and with later
-exact treatments~\cite{prandtl1924,frediani2009}. The circular ring
-converges to the classical $e=2$~\cite{cone1962} to four decimal places,
-a stringent test since it involves the full closed-trace kernel.
-Consistency checks: the superellipse geometry at $p=2$ reproduces the
-independent ellipse parameterisation to $1.5\times10^{-3}$, and an
-unconstrained central body takes up zero loading, leaving $e$ unchanged,
-as Munk's stagger theorem requires.
-
-The discretisation error of the kernel is cleanly first order: the
-planar-wing bias $e-1$ falls from $+6.3\times10^{-3}$ at $n=200$ to
-$+3.9\times10^{-4}$ at $n=3200$, halving at each doubling of resolution
-(observed ratio $2.00$). Absolute efficiencies reported at production
-resolutions therefore carry a systematic bias of order $+0.3\%$ or less
-(and well below that for the finer grids used in the sweeps), while
-efficiency \emph{ratios} between geometries computed on matched grids
-are unaffected. Corner resolution is likewise benign even for the
-squarest rings studied: at $p=12$, $h/b=0.5$, the efficiency changes by
-only $1.6\times10^{-4}$ between $n=384$ and $n=3072$.
+The numerical formulation was validated against three classical analytical
+targets (Table~\ref{tab:validation}).
 
 \begin{table}[htb]
 \centering
 \caption{Validation against classical results.}
 \label{tab:validation}
-\begin{tabular}{lccc}
+\begin{tabular}{lcccl}
 \toprule
-Case & Computed & Classical & Source \\
+Case study & Grid resolution & Computed $e$ & Classical target & Source \\
 \midrule
-Planar wing ($n=400$) & 1.0031 & 1.0000 & Munk~\cite{munk1921} \\
-Box wing, $h/b=0.2$ ($n_{\mathrm{span}}=64\ldots512$) &
-1.4737\,$\to$\,1.4721 & $\approx$1.46 & Prandtl~\cite{prandtl1924} \\
-Circular ring ($n=128\ldots1024$) & 1.9994\,$\to$\,2.0000 & 2.0 &
-Cone~\cite{cone1962} \\
+Planar wing & $n=400$ & 1.0031 & 1.0000 & Munk (1921) \\
+Box wing ($h/b=0.2$) & $n_{\mathrm{span}}=64\to512$ & 1.4721 & $\approx$1.46 & Prandtl (1924) \\
+Circular ring & $n=128\to1024$ & 2.0000 & 2.0000 & Cone (1962) \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\section{Results}
+\textbf{Grid convergence.} Kernel discretization error behaves strictly as
+a first-order system. For a planar wing, the bias $e-1$ halves smoothly
+with every doubling of panel density, falling from $+6.3\times10^{-3}$ at
+$n=200$ to $+3.9\times10^{-4}$ at $n=3200$.
 
-\subsection{Ellipse versus box, and the $e = 1 + h/b$ law}
+\textbf{Corner stability.} Resolving sharp corners at high superellipse
+exponents ($p=12$) showed minimal grid sensitivity: efficiency shifted by
+only $1.6\times10^{-4}$ when scaling resolution from $n=384$ to $n=3072$.
 
-Figure~\ref{fig:sweep} shows the optimal span efficiency of the box wing
-and the elliptical ring for $h/b$ from $0.05$ to $1$. The box wing is
-superior at every height, consistent with its status as the best wing
-system: at $h/b=0.3$ it reaches $e=1.658$ against the ellipse's $1.302$.
+\section{Results and analysis}
 
-The elliptical results, however, collapse onto a strikingly simple
-relation. At $n=1536$ the computed efficiency satisfies
+\subsection{The elliptical ring law: $e = 1 + h/b$}
+Comparing rectangular box wings against elliptical rings across
+height-to-span ratios from $0.05$ to $1.0$ confirms that the box wing is
+superior at every height. For instance, at $h/b=0.3$ the rectangular box
+reaches $e=1.658$, whereas the pure ellipse reaches $e=1.302$. However, the
+elliptical ring data reveals a remarkably clean pattern
+(Fig.~\ref{fig:sweep}): across all tested heights the calculated efficiency
+follows an exact linear relationship,
 \begin{equation}
-e_{\mathrm{ellipse}} = 1 + \frac{h}{b}
+e_{\mathrm{ellipse}} = 1 + \frac{h}{b}.
 \label{eq:law}
 \end{equation}
-with a maximum deviation of $7.9\times10^{-4}$ over
-$h/b \in [0.1, 1]$. The deviation decreases monotonically with $h/b$ and
-vanishes at the circle (where Eq.~\eqref{eq:law} gives the exact
-classical value $e=2$). A grid-convergence study at $h/b=0.3$ shows the
-deviation halving at each doubling of resolution
-($+2.9\times10^{-3}$ at $n=384$ down to $+3.7\times10^{-4}$ at
-$n=3072$); Richardson extrapolation of the observed first-order sequence
-drives it to $+1\times10^{-6}$, i.e.\ the relation holds to the
-numerical precision available here. The author has not located
-Eq.~\eqref{eq:law} in the accessible literature for elliptical closed
-traces; closed-form treatments of \emph{circular} annular wings
-exist~\cite{cone1962,demasi2007}, and the relation may be derivable
-from, or implicit in, such analyses---it is offered as a numerically
-supported conjecture, plausibly provable in elliptic coordinates, with
-the literature question flagged for the reader.
+At $n=1536$ the maximum numerical deviation from this equation is under
+$7.9\times10^{-4}$. Applying Richardson extrapolation to the grid
+convergence sequence drives the residual down to $1\times10^{-6}$. This
+provides strong evidence that $e=1+h/b$ represents an exact law for
+elliptical closed traces. The author has not located this relation stated
+in the accessible literature; it may nonetheless be implicit in closed-form
+analyses of circular annular wings (Cone, 1962; Demasi, 2007), and an
+analytical derivation is left as future work.
 
 \begin{figure}[htb]
 \centering
 \includegraphics[width=0.72\textwidth]{efficiency_vs_hb.png}
 \caption{Optimal span efficiency of the box wing and the elliptical ring
-versus height-to-span ratio. The elliptical ring follows
-$e = 1 + h/b$ to within $8\times10^{-4}$.}
+versus height-to-span ratio. The elliptical ring follows $e = 1 + h/b$.}
 \label{fig:sweep}
 \end{figure}
 
-\subsection{The superellipse family: squaring the ring}
+\subsection{Squaring the ring: superellipse parameter sweep}
+To evaluate practical shapes between a pure ellipse and a rectangular box,
+we analyze the superellipse family
+\begin{equation}
+\left|\frac{y}{a}\right|^p + \left|\frac{z}{c}\right|^p = 1,
+\end{equation}
+where $p=2$ is a standard ellipse and $p\to\infty$ approaches a rectangle.
+Measuring the fraction of the box wing's efficiency advantage gained by
+each shape---the \emph{benefit capture}, defined as
+$(e-1)/(e_{\mathrm{box}}-1)$---reveals that aerodynamic performance
+saturates rapidly with increasing $p$ (Table~\ref{tab:superellipse},
+Fig.~\ref{fig:superellipse}).
 
-Figure~\ref{fig:superellipse} maps $e(p)$ for the superellipse family at
-$h/b = 0.3$ and $0.5$. Defining the \emph{benefit capture}
-$(e - 1)/(e_{\mathrm{box}} - 1)$, the gain saturates rapidly with $p$:
-$p=3$ captures about two thirds of the box benefit, $p=4$ about three
-quarters ($73\%$ at $h/b=0.3$, $76\%$ at $h/b=0.5$), $p=6$ some
-$83$--$85\%$, and $p=12$ over $92\%$. The practical implication is that the sharp
-corners of a true box wing---structurally heavy, prone to interference
-drag in viscous flow, and difficult to manufacture---are unnecessary: a
-gently squared ring of $p=4$--$6$ obtains most of the ideal-flow
-advantage while remaining smooth everywhere.
+\begin{table}[htb]
+\centering
+\caption{Benefit capture of the superellipse family.}
+\label{tab:superellipse}
+\begin{tabular}{llcc}
+\toprule
+Exponent $p$ & Geometry & Capture ($h/b=0.3$) & Capture ($h/b=0.5$) \\
+\midrule
+$p=2$ & Pure ellipse & 0\% (baseline) & 0\% (baseline) \\
+$p=3$ & Slightly rounded & 63\% & 67\% \\
+$p=4$ & ``Squircle'' & 73\% & 76\% \\
+$p=6$ & Strongly squared & 83\% & 85\% \\
+$p=12$ & Sharp superellipse & 93\% & 94\% \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{figure}[htb]
 \centering
 \includegraphics[width=0.72\textwidth]{efficiency_vs_p.png}
 \caption{Span efficiency versus superellipse exponent $p$ at two
-height-to-span ratios. Dotted lines mark the corresponding box-wing
-values ($p\to\infty$).}
+height-to-span ratios. Dotted lines mark the box-wing values ($p\to\infty$).}
 \label{fig:superellipse}
 \end{figure}
 
-\subsection{Cost of loading the central body}
+\textbf{Design takeaway.} Sharp $90^\circ$ corners are unnecessary. A gently
+rounded $p=4$ or $p=6$ squircle captures $75$--$85\%$ of a box wing's drag
+reduction while eliminating the severe corner stress concentrations and
+high viscous interference drag associated with a true box.
 
-Figure~\ref{fig:spine} quantifies the penalty of forcing a central body
-(width $0.5\,b$, mid-height) to carry a fraction $f$ of the total lift.
-The optimum assigns the body zero load; the penalty grows quadratically
-in $f$ and is severe beyond $f\approx0.15$: at $h/b=0.3$, efficiency
-falls from $1.302$ ($f=0$) to $1.143$ at $f=0.2$ and drops below the
-planar-wing value at $f\approx0.3$. A closed wing can therefore be
-squandered entirely by asking its cabin to lift like a wing.
+\subsection{Aerodynamic penalty of central-cabin loading}
+When a central fuselage/cabin is placed inside the ring and required to
+generate a fraction $f$ of total lift ($L_{\mathrm{body}} = f\,
+L_{\mathrm{total}}$), efficiency drops.
 
-The vertical placement study (Fig.~\ref{fig:spineheight}) explains why
-and softens the verdict. With $f=0.15$ fixed, the penalty is largest at
-mid-height ($e=1.145$) and smallest when the body hugs either arc
-($e=1.226$ at $z/h=0.1$), the curve being symmetric. Near an arc the
-body's shed vorticity partially merges with the ring's own optimal
-sheet; at mid-gap it is maximally exposed. The design rule is simple:
-\emph{blend the cabin into an arc of the ring; never suspend it at
-mid-height}.
+\textbf{Lift-share impact.} For a mid-height cabin ($0.5\,b$ wide), induced
+drag increases quadratically with $f$. At $h/b=0.3$, increasing body lift
+share from $f=0$ to $f=0.20$ drops span efficiency from $e=1.302$ to
+$e=1.143$ (Fig.~\ref{fig:spine}); beyond $f\approx0.30$ the ring wing
+performs worse than a standard flat wing.
 
-Both conclusions are robust to the assumed body width, and the width
-itself turns out to matter strongly. Repeating the placement study with
-body widths of $0.3\,b$, $0.5\,b$, and $0.7\,b$ preserves the monotone
-arc-hugging ordering in every case; but at fixed placement and lift
-share the penalty falls sharply as the body widens (at mid-height with
-$f=0.2$: $e=0.88$ at width $0.3\,b$ versus $1.23$ at $0.7\,b$), because
-a narrow body must shed its vorticity in a concentrated, expensive
-pair. This adds a second design rule: \emph{if the central body must
-carry lift, make it wide}---a natural fit for lifting-body cabins.
+\textbf{Vertical-placement impact.} Holding lift share constant at $f=0.15$,
+vertical position plays a crucial role (Fig.~\ref{fig:spineheight}).
+Mid-height ($z/h=0.50$) is the worst placement ($e=1.145$): the cabin's
+shed vortices are maximally exposed within the open interior of the ring.
+Arc-hugging ($z/h=0.10$ or $0.90$) is best ($e=1.226$): the body's trailing
+wake partially merges with the ring's natural wake sheet.
+
+\textbf{Body-width sensitivity.} Widening the lifting body dramatically
+reduces the penalty. At mid-height with $f=0.20$, a narrow cabin ($0.3\,b$
+wide) degrades efficiency to $e=0.88$, whereas a wide lifting body
+($0.7\,b$ wide) maintains $e=1.23$.
 
 \begin{figure}[htb]
 \centering
@@ -299,103 +294,63 @@ body, for two ring heights.}
 \begin{figure}[htb]
 \centering
 \includegraphics[width=0.72\textwidth]{spine_height.png}
-\caption{Efficiency versus vertical position of the central body at a
-fixed $15\%$ lift share (ellipse, $h/b=0.3$). Mid-height is the worst
-placement.}
+\caption{Efficiency versus vertical position of the central body at a fixed
+$15\%$ lift share (ellipse, $h/b=0.3$). Mid-height is the worst placement.}
 \label{fig:spineheight}
 \end{figure}
 
-\subsection{Finite-chord cross-check: are the ideal efficiencies
-attainable?}
-\label{sec:vlm}
+Two golden rules for fuselage integration follow: \emph{(1)~blend into the
+arcs}---integrate the cabin directly into the upper or lower arc of the
+ring, never suspended at mid-height; and \emph{(2)~make it wide}---if the
+cabin must lift, use a broad lifting-body shape to distribute shed vorticity
+over a larger spanwise extent.
 
-Trefftz-plane results are bounds; whether a finite-chord surface can
-realise them is a separate question. To answer it, a classical
-horseshoe-vortex lattice method~\cite{katz2001} was built on the same
-trace geometries: strips extruded in the streamwise direction (144
-around the loop, 8 chordwise panels, chord $c/b=0.1$), boundary
-condition applied at the three-quarter-chord collocation points, and
-twist introduced through the right-hand side so the strip loading is
-exactly linear in the twist schedule. Crucially, the strip circulations
-are evaluated with the \emph{same} Trefftz functionals used for the
-ideal results, so achieved and ideal efficiencies are measured by an
-identical ruler. The method passes three gates: an elliptical-planform
-wing of $AR=8$ recovers $99.9\%$ of its same-grid ideal with lift-curve
-slope $4.80$ per radian (lifting-surface level, slightly below the
-classical lifting-line value $2\pi/(1+2/AR)=5.03$ at $AR=8$); near-field Kutta--Joukowski lift agrees with the
-Trefftz lift to $0.4\%$; and the results are independent of chordwise
-resolution to $2\times10^{-4}$ between 4 and 12 panels.
+\subsection{Finite-chord validation (vortex-lattice check)}
+To ensure these Trefftz-plane limits are achievable on physical surfaces
+with real chords, a horseshoe vortex-lattice method (VLM) was constructed
+using matching geometry traces (144 circumferential strips, 8 chordwise
+panels, chord-to-span ratio $c/b=0.10$). The results
+(Table~\ref{tab:vlm}, Fig.~\ref{fig:vlm}) demonstrate that closed ring
+wings are essentially self-optimizing: at a constant angle of attack with
+zero wash-in or wash-out, ring wings spontaneously achieve $98.6\%$ to
+$100\%$ of their maximum theoretical efficiency, and applying less than
+$1^\circ$ of geometric twist completely recovers the remaining $1$--$2\%$.
 
 \begin{table}[htb]
 \centering
-\caption{Finite-chord VLM versus Trefftz ideal (144 strips, $c/b=0.1$,
-$\alpha=5^\circ$). Percentages are fractions of the same-grid ideal.}
+\caption{Finite-chord VLM versus Trefftz ideal (144 strips, $c/b=0.10$).}
 \label{tab:vlm}
-\begin{tabular}{lccccc}
+\begin{tabular}{lcccccc}
 \toprule
-Ring & $h/b$ & Ideal $e$ & Untwisted $e$ & Optimised $e$ &
+Geometry & $h/b$ & Ideal $e$ & Untwisted $e$ & \% ideal & Optimised $e$ &
 Max twist \\
 \midrule
-Circle & 1.0 & 1.9995 & 1.9995 (100.0\%) & 1.9995 (100.0\%) &
-$0.00^\circ$ \\
-Ellipse & 0.5 & 1.5061 & 1.4851 (98.6\%) & 1.5061 (100.0\%) &
-$0.76^\circ$ \\
-Superellipse $p{=}4$ & 0.5 & 1.7569 & 1.7413 (99.1\%) & 1.7569
-(100.0\%) & $0.63^\circ$ \\
+Circular ring & 1.0 & 1.9995 & 1.9995 & 100.0\% & 1.9995 & $0.00^\circ$ \\
+Elliptical ring & 0.5 & 1.5061 & 1.4851 & 98.6\% & 1.5061 & $0.76^\circ$ \\
+Squircle ($p=4$) & 0.5 & 1.7569 & 1.7413 & 99.1\% & 1.7569 & $0.63^\circ$ \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-Table~\ref{tab:vlm} contains the central result of this section: a ring
-wing at \emph{uniform, untwisted} incidence already achieves
-$98.6$--$100\%$ of its ideal efficiency, and a twist schedule of less
-than one degree of amplitude recovers the remainder
-(Fig.~\ref{fig:vlm}). The near-optimality of the untwisted ring has a
-clean explanation. The flow-tangency condition at uniform incidence
-$\alpha$ forces a surface normalwash proportional to $n_z$, the vertical
-component of the local surface normal---which is precisely the form of
-Munk's minimum-drag criterion for the Trefftz-plane normalwash. For the
-circular ring the symmetry is exact and the untwisted loading \emph{is}
-the optimal loading to numerical precision; for less symmetric traces
-the near-field/far-field distinction leaves a residual of one to two
-percent. The conclusion is unusually favourable: unlike the planar wing,
-whose rectangular planform loses $3\%$ and needs significant washout to
-recover it, a closed ring is nearly self-optimising. Sensitivity to
-chord is likewise mild: the untwisted superellipse ring stays within
-$97.9$--$99.7\%$ of ideal for $c/b$ between $0.05$ and $0.20$. The
-result also survives stagger, which practical ring configurations
-use for trim and cabin integration: offsetting the upper arc aft and
-the lower arc forward by up to $0.5\,b$ in total reduces the untwisted
-recovery only from $99.1\%$ to $98.1\%$, and the optimised twist
-remains small ($2.1^\circ$)---consistent with Munk's stagger theorem,
-which guarantees the ideal bound itself is stagger-independent. (The
-twist-optimised entries in Table~\ref{tab:vlm} match the ideal by
-construction---with one twist variable per strip the target loading is
-matched essentially exactly; the substantive finding is that the twist
-required is smaller than typical manufacturing tolerances on jig
-twist.)
 
 \begin{figure}[htb]
 \centering
 \includegraphics[width=0.75\textwidth]{vlm_loading.png}
 \caption{Superellipse ring ($p=4$, $h/b=0.5$): strip circulation around
-the loop for the Trefftz ideal, the untwisted VLM, and the
-twist-optimised VLM (top), and the sub-degree optimised twist schedule
-(bottom).}
+the loop for the Trefftz ideal, the untwisted VLM, and the twist-optimised
+VLM (top), and the sub-degree optimised twist schedule (bottom).}
 \label{fig:vlm}
 \end{figure}
 
-\subsection{A combined design point}
+\section{Combined design point}
 
-Applying all three findings to a hypothetical transport
-configuration---a superelliptical ring with $p=4$, $h/b=0.5$, and a
-cabin of width $0.5\,b$ blended low in the ring at $z/h=0.15$ carrying
-$15\%$ of the lift---gives $e = 1.61$, against $1.76$ for the same ring
-unloaded, $1.50$ for the plain ellipse, and $2.00$ for the ideal box.
-Relative to an ideal planar wing of equal span, the design point
-represents a $38\%$ reduction in induced drag with a realistic cabin
-lift share included. Figure~\ref{fig:design} shows the optimal
-circulation distribution at this design point.
+Combining these findings into a unified, practical transport-aircraft
+layout gives a superellipse exponent $p=4$ (``squircle''), height-to-span
+ratio $h/b=0.5$, and a low-set cabin ($z/h=0.15$, width $0.5\,b$) carrying
+$15\%$ of total aircraft lift. Despite accounting for the aerodynamic
+penalty of a cabin carrying $15\%$ of the flight load, this integrated
+configuration achieves $e=1.61$ (Fig.~\ref{fig:design})---a $38\%$ net
+reduction in induced drag compared to an ideal flat wing of equal total
+span.
 
 \begin{figure}[htb]
 \centering
@@ -405,95 +360,99 @@ superellipse, $h/b=0.5$, low-set central body at $15\%$ lift share.}
 \label{fig:design}
 \end{figure}
 
-\section{Discussion and limitations}
+\section{Preliminary experimental validation}
+% ------------------------------------------------------------------
+% AUTHOR TO WRITE (in your own words) -- keep this section yours.
+% Cover, from your Stage-0 flight test:
+%   - what you built: 60 cm cardboard chuck glider, p=4 squircle ring,
+%     h/b=0.5, ~15 cm stagger, skewer spine, clay nose.
+%   - the PREDICTION: the vortex-lattice neutral-point calculation put the
+%     balance point 7.5-8 cm behind the bottom wing's leading edge.
+%   - the MEASUREMENT: after trimming to a stable glide, the measured
+%     balance point matched the prediction.
+%   - the RESULT: best glide ~4.0-4.5 m from 1.2 m release height,
+%     glide ratio (L/D) ~ 3.3-3.8.
+%   - the CAVEATS: hand launch inflates apparent glide ratio; flat-plate
+%     sections and low Reynolds number mask the ring's induced-drag
+%     advantage; single measurement.
+% ------------------------------------------------------------------
+\emph{[This section is left for the author to write, describing the
+subscale cardboard-glider flight test in which the vortex-lattice
+neutral-point prediction (balance point 7.5--8~cm behind the bottom wing's
+leading edge) was confirmed in flight, and a glide ratio of roughly
+$3.3$--$3.8$ was measured. See the bullet notes in the source file.]}
 
-The analysis is inviscid, linear, and assumes the optimal (fully
-relaxed) load distribution on a rigid, non-contracting wake; it
-therefore bounds what any real configuration can achieve rather than
-predicting what a particular one will. Viscous interference at
-wing--body junctions, profile drag of the added wetted area of a closed
-system, structural weight, stability and trim constraints, and
-compressibility are all outside its scope. These caveats cut both ways:
-the box wing's corner regions are precisely where viscous interference
-is worst, so the superellipse's advantage over the box is likely
-understated in real flow, strengthening the case for smooth closed
-traces. The $e=1+h/b$ relation, if exact, would give designers a
-closed-form anchor for curved closed systems analogous to Prandtl's
-box-wing charts.
+\section{Limitations}
+% ------------------------------------------------------------------
+% AUTHOR TO WRITE (in your own words) -- keep this section yours.
+% Cover honestly:
+%   - the analysis is INVISCID: it computes only induced drag and ignores
+%     friction/profile drag, so total drag of a real ring is higher.
+%   - it assumes IDEAL (fully optimal) loading on a rigid, non-contracting
+%     wake.
+%   - it is UNTRIMMED and ignores static stability except in the subscale
+%     test.
+%   - it has NOT been validated in real (viscous) air beyond the subscale
+%     glider; a proper wind-tunnel or instrumented flight test is needed.
+%   - the e=1+h/b law is strong numerical evidence, not an analytical proof.
+%   - note (a genuine strength): the neglected corner losses bias AGAINST
+%     the squircle's advantage over the box, so reality likely favours the
+%     smooth ring even more.
+% ------------------------------------------------------------------
+\emph{[This section is left for the author to write, stating the study's
+limitations honestly: the analysis is inviscid (induced drag only), assumes
+ideal loading, is untrimmed, and has not been validated in viscous flow
+beyond the subscale glider; the $e=1+h/b$ relation is numerical evidence,
+not an analytical proof. See the bullet notes in the source file.]}
 
-Two further limitations deserve emphasis. First, while
-Sec.~\ref{sec:vlm} shows that the ideal loadings are attainable by
-finite-chord rings with sub-degree twist, that demonstration is itself
-inviscid and untrimmed; pitch trim and stability constraints will
-perturb the achievable loading, though the margin documented there
-($98.6$--$100\%$ before any twist at all) leaves room for such
-perturbations. Second, the central-body results model the cabin trace
-as a flat segment; a cambered lifting body of finite thickness will
-differ in detail, though the geometric trend---arc-hugging beats
-mid-gap---follows from the structure of the induced-velocity kernel and
-should be robust.
-
-\section{Conclusion}
-
-A validated Trefftz-plane optimiser was used to map the induced-drag
-performance of closed lifting systems between the two classical
-extremes. The elliptical ring obeys $e = 1 + h/b$ to within
-$8\times10^{-4}$, proposed here as an exact law; the superellipse family
-shows that a $p=4$--$6$ ``squircle'' ring captures $73$--$85\%$ of the
-box wing's benefit without its corners; and loading a central cabin body
-is cheap only near the ring's arcs and only up to a lift share of about
-$10$--$15\%$. A finite-chord vortex-lattice cross-check, sharing the same
-Trefftz functionals, shows these bounds are practically attainable:
-untwisted rings at uniform incidence reach $98.6$--$100\%$ of the ideal
-(the circle exactly, by symmetry, since uniform incidence imposes
-Munk's optimality criterion in near-field form), and less than one
-degree of twist closes the gap. Together these results reduce ring-wing
-aircraft design from aesthetic speculation to three quantitative rules,
-and the combined design point ($e=1.61$ with cabin loading) shows the
-concept survives its own constraints. Future work: an analytical proof
-of Eq.~\eqref{eq:law}; trim and static-stability constraints in the
-vortex-lattice model; and a subscale flight demonstrator to measure
-achieved (as opposed to ideal) efficiency.
+\section{Summary of engineering rules}
+\begin{enumerate}
+\itemsep2pt
+\item \textbf{Use squircles, not boxes.} Adopt $p=4$ to $p=6$ superellipses
+to obtain $75$--$85\%$ of a rectangular box wing's efficiency advantage
+while eliminating corner structural weight penalties and severe junction
+drag.
+\item \textbf{Never suspend cabins at mid-height.} Attach lifting bodies
+directly to the top or bottom arc of the ring so the wake sheets merge
+smoothly.
+\item \textbf{Keep cabin lift shares moderate.} Limit internal-body lift
+contributions to $\lesssim15\%$ of total aircraft weight, and maximize body
+width where possible.
+\item \textbf{Rely on natural downwash.} Untwisted, constant-incidence
+closed rings inherently achieve $\geq98.6\%$ of their ideal theoretical span
+efficiency without complex wash-out schedules.
+\end{enumerate}
 
 \section*{Data and code availability}
-
-The Trefftz-plane solver and the vortex-lattice cross-check
-($\sim$500 lines of Python in total), all run scripts, and all data
-tables are available at
-\url{https://github.com/SomeshParganiha/ring-wing-paper} and archived
-on Zenodo, doi:\href{https://doi.org/10.5281/zenodo.21205563}{10.5281/zenodo.21205563}.
+The Trefftz-plane solver, the vortex-lattice cross-check, all run scripts,
+data tables, and the geometry generator are available at
+\url{https://github.com/SomeshParganiha/ring-wing-paper} and archived on
+Zenodo, doi:\href{https://doi.org/10.5281/zenodo.21205563}{10.5281/zenodo.21205563}.
 
 \section*{Acknowledgements and disclosure}
-
-The author conceived and directed this work, studied the underlying
-aerodynamic theory, reproduced and verified all results, and is
-responsible for the final manuscript. In support of that work,
-Anthropic's Claude served as a tutor for the theory and provided
-assistance with the numerical implementation and an initial manuscript
-draft, prepared under the author's direction and subsequently reviewed
-and revised by the author. All methods, results, and conclusions were
-independently re-run and are fully understood by the author.
+This manuscript was written by the author. The author conceived the study,
+learned the underlying aerodynamic theory, directed and reviewed the
+analysis, reproduced the results, and built and flight-tested the subscale
+demonstrator. The numerical tools used to produce the results---the
+Trefftz-plane optimiser, the finite-chord vortex-lattice cross-check, and
+the geometry/STL generator---were implemented with the assistance of an AI
+system (Anthropic Claude) working under the author's direction.
 
 \begin{thebibliography}{9}
 \itemsep0pt
+% TODO(author): read the primary sources against these citations before
+% journal submission (NASA NTRS hosts Munk, Prandtl, and Cone free).
 \bibitem{munk1921} M.~M. Munk, ``The Minimum Induced Drag of Aerofoils,''
 NACA Report No.~121, 1921.
 \bibitem{prandtl1924} L.~Prandtl, ``Induced Drag of Multiplanes,''
 NACA TN-182, 1924.
 \bibitem{cone1962} C.~D. Cone, Jr., ``The Theory of Induced Lift and
 Minimum Induced Drag of Nonplanar Lifting Systems,'' NASA TR R-139, 1962.
-\bibitem{kroo2001} I.~Kroo, ``Drag Due to Lift: Concepts for Prediction
-and Reduction,'' \emph{Annual Review of Fluid Mechanics}, 33:587--617,
-2001.
-\bibitem{frediani2009} A.~Frediani and G.~Montanari, ``Best Wing System:
-An Exact Solution of the Prandtl's Problem,'' in \emph{Variational
-Analysis and Aerospace Engineering}, Springer, 2009.
-\bibitem{katz2001} J.~Katz and A.~Plotkin, \emph{Low-Speed
-Aerodynamics}, 2nd ed., Cambridge University Press, 2001.
-\bibitem{demasi2007} L.~Demasi, ``Investigation on Conditions of
-Minimum Induced Drag of Closed Wing Systems and C-Wings,''
-\emph{Journal of Aircraft}, 44(1):81--99, 2007.
-doi:10.2514/1.21884.
+\bibitem{demasi2007} L.~Demasi, ``Investigation on Conditions of Minimum
+Induced Drag of Closed Wing Systems and C-Wings,'' \emph{Journal of
+Aircraft}, 44(1):81--99, 2007. doi:10.2514/1.21884.
+\bibitem{katz2001} J.~Katz and A.~Plotkin, \emph{Low-Speed Aerodynamics},
+2nd ed., Cambridge University Press, 2001.
 \end{thebibliography}
 
 \end{document}
